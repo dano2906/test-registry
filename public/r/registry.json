@@ -13,11 +13,11 @@
       "registryDependencies": ["button", "spinner", "dialog", "sonner"],
       "files": [
         {
-          "path": "src/registry/action-button/components/ActionButton.vue",
+          "path": "src/registry/action-button/ActionButton.vue",
           "type": "registry:ui"
         },
         {
-          "path": "src/registry/action-button/composables/useConfirmAction.ts",
+          "path": "src/registry/action-button/useConfirmAction.ts",
           "type": "registry:hook"
         }
       ]
