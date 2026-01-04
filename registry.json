@@ -10,7 +10,7 @@
       "description": "Un botón para ejecutar acciones capaz de manejar confirmación y errores.",
       "author": "Danilo León <dlg9806@gmail.com>",
       "dependencies": ["lucide-vue-next", "vue-sonner"],
-      "registryDependencies": ["button", "spinner", "dialog", "toaster"],
+      "registryDependencies": ["button", "spinner", "dialog", "sonner"],
       "files": [
         {
           "path": "src/registry/action-button/components/ActionButton.vue",
