@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Plus } from "lucide-vue-next";
-import ActionButton from "@/registry/action-button/components/ActionButton.vue";
+import ActionButton from "@/registry/action-button/ActionButton.vue";
 import "vue-sonner/style.css";
 import { Toaster } from "@/components/ui/sonner";
 

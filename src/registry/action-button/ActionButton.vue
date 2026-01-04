@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { useConfirmAction } from "@/registry/action-button/composables/useConfirmAction";
+import { useConfirmAction } from "@/registry/action-button/useConfirmAction";
 
 type ActionResult = { ok: true } | { ok: false; message?: string };
 
