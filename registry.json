@@ -1,0 +1,22 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry.json",
+  "name": "test-registry-dano",
+  "homepage": "https://test-registry-beta.vercel.app/",
+  "items": [
+    {
+      "name": "custom-button",
+      "type": "registry:component",
+      "title": "Custom Button",
+      "description": "A test from the registry",
+      "author": "John Doe <john@doe.com>",
+      "dependencies": ["lucide-vue-next"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "src/registry/new-york/custom-button/CustomButton.vue",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}
