@@ -15,12 +15,12 @@
         {
           "path": "src/registry/action-button/components/ActionButton.vue",
           "type": "registry:ui",
-          "target": "@/components/ui/ActionButton.vue"
+          "target": "src/components/ui/ActionButton.vue"
         },
         {
           "path": "src/registry/action-button/composables/useConfirmAction.ts",
           "type": "registry:hook",
-          "target": "@/components/ui/useConfirmAction.ts"
+          "target": "src/composables/useConfirmAction.ts"
         }
       ]
     }
