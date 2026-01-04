@@ -14,13 +14,11 @@
       "files": [
         {
           "path": "src/registry/action-button/components/ActionButton.vue",
-          "type": "registry:ui",
-          "target": "src/components/ui/ActionButton.vue"
+          "type": "registry:ui"
         },
         {
           "path": "src/registry/action-button/composables/useConfirmAction.ts",
-          "type": "registry:hook",
-          "target": "src/composables/useConfirmAction.ts"
+          "type": "registry:hook"
         }
       ]
     }
