@@ -1,0 +1,30 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "action-button",
+  "type": "registry:component",
+  "title": "Boton de acción",
+  "author": "Danilo León <dlg9806@gmail.com>",
+  "description": "Un botón para ejecutar acciones capaz de manejar confirmación y errores.",
+  "dependencies": [
+    "lucide-vue-next",
+    "vue-sonner"
+  ],
+  "registryDependencies": [
+    "button",
+    "spinner",
+    "dialog",
+    "toaster"
+  ],
+  "files": [
+    {
+      "path": "src/registry/action-button/components/ActionButton.vue",
+      "content": "<script setup lang=\"ts\">\nimport Button from \"@/components/ui/button/Button.vue\";\nimport Spinner from \"@/components/ui/spinner/Spinner.vue\";\nimport {\n  Dialog,\n  DialogContent,\n  DialogDescription,\n  DialogHeader,\n  DialogTitle,\n  DialogFooter,\n} from \"@/components/ui/dialog\";\nimport { useConfirmAction } from \"@/registry/action-button/composables/useConfirmAction\";\n\ntype ActionResult = { ok: true } | { ok: false; message?: string };\n\ntype MaybePromise<T> = T | Promise<T>;\n\ninterface Props<T extends ActionResult = ActionResult> {\n  action(): MaybePromise<T>;\n  requireAreYouSure?: boolean;\n  couldCloseAutomatically?: boolean;\n  toastOptions?: {\n    position?: \"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\";\n  };\n  dialogOptions?: {\n    cancelButtonText?: string;\n    confirmButtonText?: string;\n  };\n}\n\nconst {\n  action,\n  requireAreYouSure = false,\n  couldCloseAutomatically = true,\n  toastOptions = {\n    position: \"bottom-right\",\n  },\n  dialogOptions = {\n    cancelButtonText: \"Cancelar\",\n    confirmButtonText: \"Confirmar\",\n  },\n} = defineProps<Props>();\n\nconst emit = defineEmits<{\n  success: [ActionResult];\n  error: [unknown];\n}>();\n\nconst { isLoading, openDialog, onPrimaryClick, onConfirm, onCancel } =\n  useConfirmAction(action, {\n    requireAreYouSure,\n    couldCloseAutomatically,\n    toastOptions,\n  });\n</script>\n\n<template>\n  <Button @click=\"onPrimaryClick\" :disabled=\"isLoading\">\n    <slot name=\"text\" />\n    <Spinner v-if=\"isLoading && !requireAreYouSure\" />\n    <slot name=\"icon\" v-else />\n  </Button>\n  <Dialog v-model:open=\"openDialog\">\n    <DialogContent>\n      <DialogHeader>\n        <DialogTitle>Are you absolutely sure?</DialogTitle>\n        <DialogDescription>\n          This action cannot be undone. This will permanently delete your\n          account and remove your data from our servers.\n        </DialogDescription>\n      </DialogHeader>\n      <DialogFooter>\n        <Button @click=\"onCancel\" variant=\"secondary\" class=\"mr-2\">\n          {{ dialogOptions?.cancelButtonText ?? \"Cancelar\" }}\n        </Button>\n        <Button @click=\"onConfirm\" variant=\"destructive\" class=\"min-w-28\">\n          <Spinner v-if=\"isLoading\" />\n          <span v-else>{{\n            dialogOptions?.confirmButtonText ?? \"Confirmar\"\n          }}</span>\n        </Button>\n      </DialogFooter>\n    </DialogContent>\n  </Dialog>\n</template>\n",
+      "type": "registry:ui"
+    },
+    {
+      "path": "src/registry/action-button/composables/useConfirmAction.ts",
+      "content": "import { ref } from \"vue\";\nimport { toast } from \"vue-sonner\";\n\nexport type ActionResult = { ok: true } | { ok: false; message?: string };\n\ntype MaybePromise<T> = T | Promise<T>;\n\ninterface UseConfirmActionOptions {\n  requireAreYouSure?: boolean;\n  couldCloseAutomatically?: boolean;\n  toastOptions?: {\n    position?: \"top-left\" | \"top-right\" | \"bottom-left\" | \"bottom-right\";\n  };\n}\n\nexport function useConfirmAction<T extends ActionResult>(\n  action: () => MaybePromise<T>,\n  {\n    requireAreYouSure = false,\n    couldCloseAutomatically = true,\n    toastOptions = {\n      position: \"bottom-right\",\n    },\n  }: UseConfirmActionOptions = {}\n) {\n  const isLoading = ref(false);\n  const openDialog = ref(false);\n\n  const showError = (message = \"Something went wrong\") => {\n    toast.error(message, { position: toastOptions.position });\n  };\n\n  const execute = async () => {\n    isLoading.value = true;\n\n    try {\n      const result = await action();\n\n      if (!result.ok) {\n        showError(result.message);\n        return;\n      }\n      if (openDialog.value && couldCloseAutomatically) {\n        openDialog.value = false;\n      }\n\n      return result;\n    } catch (error) {\n      const message =\n        error instanceof Error ? error.message : \"Something went wrong\";\n\n      showError(message);\n    } finally {\n      isLoading.value = false;\n    }\n  };\n\n  const onPrimaryClick = () => {\n    if (requireAreYouSure) {\n      openDialog.value = true;\n    } else {\n      execute();\n    }\n  };\n\n  const onConfirm = () => {\n    execute();\n  };\n\n  const onCancel = () => {\n    openDialog.value = false;\n  };\n\n  return {\n    isLoading,\n    openDialog,\n    onPrimaryClick,\n    onConfirm,\n    onCancel,\n  };\n}\n",
+      "type": "registry:hook"
+    }
+  ]
+}

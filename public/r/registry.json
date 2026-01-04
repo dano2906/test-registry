@@ -4,17 +4,21 @@
   "homepage": "https://test-registry-beta.vercel.app/",
   "items": [
     {
-      "name": "custom-button",
+      "name": "action-button",
       "type": "registry:component",
-      "title": "Custom Button",
-      "description": "A test from the registry",
-      "author": "John Doe <john@doe.com>",
-      "dependencies": ["lucide-vue-next"],
-      "registryDependencies": ["button"],
+      "title": "Boton de acción",
+      "description": "Un botón para ejecutar acciones capaz de manejar confirmación y errores.",
+      "author": "Danilo León <dlg9806@gmail.com>",
+      "dependencies": ["lucide-vue-next", "vue-sonner"],
+      "registryDependencies": ["button", "spinner", "dialog", "toaster"],
       "files": [
         {
-          "path": "src/registry/new-york/custom-button/CustomButton.vue",
-          "type": "registry:component"
+          "path": "src/registry/action-button/components/ActionButton.vue",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/registry/action-button/composables/useConfirmAction.ts",
+          "type": "registry:hook"
         }
       ]
     }
